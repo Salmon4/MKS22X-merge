@@ -29,4 +29,30 @@ public class Merge{
   	mergesortHelper(left,0,(lo + hi) / 2);
 		mergesortHelper(right,(lo + hi) / 2 + 1, data.length - 1);
 
+		int leftIndex = 0;
+		int rightIndex = 0;
+		int index = lo;
+		while (leftIndex =< (lo+hi)/2 && rightIndex < data.length - ((lo+hi)/2)){
+			if (left[leftIndex] < right[rightIndex]){
+				data[index] = left[leftIndex];
+				leftIndex++;
+				index++;
+			}
+			else{
+				data[index] = right[rightIndex];
+				rightIndex++;
+				index++;
+			}
+		}
+
+		while (leftIndex < (lo+hi)/2){
+			data[index] = left[leftIndex];
+			leftIndex++;
+			index++;
+		}
+		while (rightIndex < data.length - ((lo+hi)/2)){
+			data[index] = right[rightIndex];
+			rightIndex++;
+			index++;
+		}
 }
