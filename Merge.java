@@ -7,63 +7,55 @@ public class Merge{
 	}
 
 	private static void mergesortHelper(int[] data, int lo, int hi){
- 		if (lo >= hi){
+ 		if (data.length <= 1){
     			return;
 		}
 
 		int middle = (lo+hi)/2;
-		mergesortHelper(data,lo,middle);
-		mergesortHelper(data,middle + 1, hi);
-		int length1 = middle - lo;
-		int length2 = hi - middle;
-		int[] left = new int[(lo+hi)/2];
-		int[] right = new int[hi - (lo+hi)/2];
 
-		for (int l = 0; l < length1; l++){
-			left[l] = data[lo + l];
+		int[] left = new int[(lo+hi)/2 - lo + 1];
+		int[] right = new int[hi - (lo+hi)/2];
+		for (int l = 0; l < left.length; l++){
+			left[l] = data[l];
 		}
 
-		for (int r = 0; r < length2; r++){
+		for (int r = 0; r < right.length; r++){
 			right[r] = data[middle + 1 + r];
 		}
-		/**
-		temp = new int[data.length - (data.length/2)];
-		int tempIndex = 0;
-		for (int i = data.length - (data.length/2); i < data.length; i++{
-			temp[tempIndex] = data[i];
-			tempIndex++;
-		}
-		**/
-  	//mergesortHelper(left,lo,(lo + hi) / 2);
-		//mergesortHelper(right,(lo + hi) / 2 + 1, hi);
+		mergesortHelper(left,0,left.length - 1);
+		mergesortHelper(right,0, right.length - 1);
 
 		int leftIndex = 0;
 		int rightIndex = 0;
-		int index = lo;
-		while (leftIndex < length1 && rightIndex < length2){
-			if (left[leftIndex] < right[rightIndex]){
+		int index = 0;
+		while (index < data.length){
+			if (rightIndex >= right.length){
 				data[index] = left[leftIndex];
 				leftIndex++;
 				//index++;
 			}
 			else{
-				data[index] = right[rightIndex];
-				rightIndex++;
+				if (leftIndex >= left.length){
+					data[index] = right[rightIndex];
+					rightIndex++;
+				}
+				else{
+					int l = left[leftIndex];
+					int r = right[rightIndex];
+					if (l > r){
+						data[index] = r;
+						rightIndex++;
+					}
+					else{
+						data[index] = l;
+						leftIndex++;
+					}
+				}
 			//	index++;
 			}
 			index++;
 		}
 
-		while (leftIndex < length1){
-			data[index] = left[leftIndex];
-			leftIndex++;
-			index++;
-		}
-		while (rightIndex < length2){
-			data[index] = right[rightIndex];
-			rightIndex++;
-			index++;
-		}
 }
 public static void main(String[]args){
 System.out.println("Size\t\tMax Value\tquick/builtin ratio ");
