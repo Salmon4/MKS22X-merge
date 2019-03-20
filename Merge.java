@@ -11,16 +11,35 @@ public class Merge{
 	}
 		mergesortHelper(data,temp,0,data.length-1);
 	}
-
+	public static void insertionsort(int[] data, int lo, int hi){
+		for (int i = lo; i <= hi;i++){
+			int orig = data[i];
+			int c = i;
+			while (c > lo && data[c-1] > orig){//left number is bigger
+				data[c] = data[c-1];
+				//data[c] = orig;
+				c--;
+			}
+			data[c] = orig;
+		}
+	}
 	private static void mergesortHelper(int[] data, int[] temp, int lo, int hi){
 		if (lo == hi){
     			return;
 		}
 
-		int left = lo;
-		int right = (lo+hi)/2 + 1;
+		if ((lo+hi)/2 - lo <= 43){
+			insertionsort(temp,lo,(lo+hi)/2);
+			insertionsort(temp,(lo+hi)/2+1,hi);
+		}
+		else{
+		//int left = lo;
+		//int right = (lo+hi)/2 + 1;
 		mergesortHelper(temp,data,lo,(lo+hi)/2);
 		mergesortHelper(temp,data,(lo+hi)/2+1,hi);
+	}
+	int left = lo;
+	int right = (lo+hi)/2 + 1;
 		int index = lo;
 		while (index <= hi){
 			if (left > (lo+hi)/2){
@@ -47,6 +66,7 @@ public class Merge{
 			}
 			index++;
 		}
+
 	}
 
 	private static void mergesortHelper(int[] data, int lo, int hi){
