@@ -3,15 +3,58 @@ import java.util.Arrays;
 public class Merge{
 	public static void mergesort(int[]data){
 	//	int[] temp = new int[data.length];
-		mergesortHelper(data,0,data.length-1);
+
+	int[] temp = new int[data.length];
+	for (int i = 0; i < data.length; i++){
+		temp[i] = data[i];
+
+	}
+		mergesortHelper(data,temp,0,data.length-1);
 	}
 
-	private static void mergesortHelper(int[] data, int lo, int hi){
- 		if (data.length <= 1){
+	private static void mergesortHelper(int[] data, int[] temp, int lo, int hi){
+		if (lo == hi){
     			return;
 		}
 
-		int middle = (lo+hi)/2;
+		int left = lo;
+		int right = (lo+hi)/2 + 1;
+		mergesortHelper(temp,data,lo,(lo+hi)/2);
+		mergesortHelper(temp,data,(lo+hi)/2+1,hi);
+		int index = lo;
+		while (index <= hi){
+			if (left > (lo+hi)/2){
+				data[index] = temp[right];
+				right++;
+			}
+			else{
+				if (right > hi){
+					data[index] = temp[left];
+					left++;
+				}
+				else{
+					int leftValue = temp[left];
+					int rightValue = temp[right];
+					if (leftValue < rightValue){
+						data[index] = leftValue;
+						left++;
+					}
+					else{
+						data[index] = rightValue;
+						right++;
+					}
+				}
+			}
+			index++;
+		}
+	}
+
+	private static void mergesortHelper(int[] data, int lo, int hi){
+ 		if (lo >= hi){
+    			return;
+		}
+
+		//int middle = (lo+hi)/2;
 
 		int[] left = new int[(lo+hi)/2 - lo + 1];
 		int[] right = new int[hi - (lo+hi)/2];
@@ -20,7 +63,7 @@ public class Merge{
 		}
 
 		for (int r = 0; r < right.length; r++){
-			right[r] = data[middle + 1 + r];
+			right[r] = data[(lo+hi)/2 + 1 + r];
 		}
 		mergesortHelper(left,0,left.length - 1);
 		mergesortHelper(right,0, right.length - 1);
